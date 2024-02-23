@@ -68,21 +68,22 @@
                 </StackPanel>
                 <RadioButton Style="{StaticResource menuButton}"
                                  Tag="{StaticResource color1}"
+                                 IsChecked="True"
+                                  Click="CustomerManagerButton_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <fa:IconImage Icon="UserGroup" Style="{StaticResource menuButtonIcon}"/>
+                        <TextBlock Text="Member" Style="{StaticResource menuButtonText}"/>
+                    </StackPanel>
+                </RadioButton>
+                <RadioButton Style="{StaticResource menuButton}"
+                                 Tag="{StaticResource color1}"
                                 Click="ProductManagerButton_Click">
                     <StackPanel Orientation="Horizontal">
                         <fa:IconImage Icon="Shop" Style="{StaticResource menuButtonIcon}"/>
                         <TextBlock Text="Product" Style="{StaticResource menuButtonText}"/>
                     </StackPanel>
                 </RadioButton>
-                <RadioButton Style="{StaticResource menuButton}"
-                                 Tag="{StaticResource color1}"
-                                 IsChecked="True"
-                                  Click="CustomerManagerButton_Click">
-                    <StackPanel Orientation="Horizontal">
-                        <fa:IconImage Icon="UserGroup" Style="{StaticResource menuButtonIcon}"/>
-                        <TextBlock Text="Customers" Style="{StaticResource menuButtonText}"/>
-                    </StackPanel>
-                </RadioButton>
+         
                 <RadioButton Style="{StaticResource menuButton}"
                                  Tag="{StaticResource color1}"
                                  Click="OrderManagerButton_Click">
@@ -179,7 +180,6 @@
                                 Placement="Bottom" StaysOpen="False">
                                 <Grid Background="White">
                                     <Button Content="Logout" Click="LogoutButton_Click"/>
-                                   
                                 </Grid>
                             </Popup>
 
@@ -207,7 +207,13 @@
                         </StackPanel>
 
                     </Grid>
-                    <ContentControl Content="{Binding CurrentChildView}"
+                    <ContentControl Content="{Binding ProductManagerView}"
+                                    Grid.Row="2"
+                                    Margin="25"/>
+                    <ContentControl Content="{Binding OrderManagerView}"
+                                    Grid.Row="2"
+                                    Margin="25"/>
+                    <ContentControl Content="{Binding MemberManagerView}"
                                     Grid.Row="2"
                                     Margin="25"/>
 

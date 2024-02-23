@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,16 +13,54 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
+
 namespace GoldManagement
 {
     /// <summary>
     /// Interaction logic for AdminManager.xaml
     /// </summary>
-    public partial class AdminManager : Window
+    public partial class AdminManager : Window, INotifyPropertyChanged
     {
+        private UserControl _productManagerView;
+        private UserControl _OrderManagerView;
+        private UserControl _MemberManagerView;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        public UserControl ProductManagerView
+        {
+            get { return _productManagerView; }
+            set
+            {
+                _productManagerView = value;
+                OnPropertyChanged(nameof(ProductManagerView));
+            }
+        }
+        public UserControl OrderManagerView
+        {
+            get { return _OrderManagerView; }
+            set
+            {
+                _productManagerView = value;
+                OnPropertyChanged(nameof(OrderManagerView));
+            }
+        }
+        public UserControl MemberManagerView
+        {
+            get { return _MemberManagerView; }
+            set
+            {
+                _productManagerView = value;
+                OnPropertyChanged(nameof(MemberManagerView));
+            }
+        }
+        protected void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
         public AdminManager()
         {
             InitializeComponent();
+            DataContext = this;
         }
 
         private void pnlControlBar_MouseEnter(object sender, MouseEventArgs e)
@@ -65,20 +104,19 @@ namespace GoldManagement
         }
         private void CustomerManagerButton_Click(object sender, RoutedEventArgs e)
         {
-           CustomerManager customerManager = new CustomerManager();
-           customerManager.Show(); 
+            ProductManagerView = new MemberManager();
         }
 
         private void OrderManagerButton_Click(object sender, RoutedEventArgs e)
         {
-            OrderManager orderManager = new OrderManager();
-            orderManager.Show(); 
+            ProductManagerView = new OrderManager();
         }
 
         private void ProductManagerButton_Click(object sender, RoutedEventArgs e)
         {
-            ProductManager productManager = new ProductManager();
-            productManager.Show(); 
+                ProductManagerView = new ProductManager();
+           
+
         }
     }
 }

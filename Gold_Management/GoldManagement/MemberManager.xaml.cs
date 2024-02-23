@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace GoldManagement
 {
     /// <summary>
-    /// Interaction logic for ProductManager.xaml
+    /// Interaction logic for MemberManager.xaml
     /// </summary>
-    public partial class ProductManager : UserControl
+    public partial class MemberManager : UserControl
     {
-        public ProductManager()
+        public MemberManager()
         {
             InitializeComponent();
         }
@@ -30,12 +30,7 @@ namespace GoldManagement
 
         }
 
-        private void Button_OpenCreate(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void Button_Edit(object sender, RoutedEventArgs e)
+        private void Button_Reload(object sender, RoutedEventArgs e)
         {
 
         }
@@ -45,7 +40,12 @@ namespace GoldManagement
 
         }
 
-        private void Button_Reload(object sender, RoutedEventArgs e)
+        private void Button_Edit(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Button_OpenCreate(object sender, RoutedEventArgs e)
         {
 
         }

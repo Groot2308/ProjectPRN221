@@ -10,6 +10,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace GoldManagement
@@ -17,7 +18,7 @@ namespace GoldManagement
     /// <summary>
     /// Interaction logic for OrderManager.xaml
     /// </summary>
-    public partial class OrderManager : Window
+    public partial class OrderManager : UserControl
     {
         public OrderManager()
         {
