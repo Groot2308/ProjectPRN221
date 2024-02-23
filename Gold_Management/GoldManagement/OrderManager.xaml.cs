@@ -24,5 +24,15 @@ namespace GoldManagement
         {
             InitializeComponent();
         }
+
+        private void Button_Search(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ListView_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+
+        }
     }
 }
