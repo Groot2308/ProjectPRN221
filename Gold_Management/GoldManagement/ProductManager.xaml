@@ -30,7 +30,12 @@
                     </StackPanel>
                     <StackPanel>
                         <Label Style="{StaticResource ResourceKey=labelPrimary}" Height="auto" Content="Category"/>
-                        <TextBox Style="{StaticResource ResourceKey=texboxPrimary}" x:Name="searchByCategory" Width="200" Height="30" Margin="0 0 5 0"></TextBox>
+                        <ComboBox  x:Name="searchByCategory" Width="200" Height="30" Margin="0 0 5 0"
+                                     ItemsSource="{Binding GroupId, Mode=OneWay}"   
+                                     DisplayMemberPath="GroupName"
+                                     SelectedValuePath="GroupId"
+                                     SelectedValue="{Binding CategoryId}"
+                                     DataContext="{Binding SelectedItem,ElementName=listView}"/>
                     </StackPanel>
                     <StackPanel>
                         <Label Style="{StaticResource ResourceKey=labelPrimary}" Height="auto" Content="PurchasePrice"/>

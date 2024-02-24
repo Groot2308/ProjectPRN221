@@ -6,48 +6,73 @@
              xmlns:local="clr-namespace:GoldManagement"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="1000">
+
+    <!--<UserControl.Resources>
+        <ResourceDictionary Source="StyleManager.xaml" />
+    </UserControl.Resources>-->
+
     <UserControl.Resources>
-        <ResourceDictionary Source="StyleManager.xaml"></ResourceDictionary>
+        <local:intToRole x:Key="intToRole" />
     </UserControl.Resources>
+
     <Grid Background="White">
         <StackPanel>
-            <TextBlock Margin="0 10 0 20"  FontWeight="Light" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Top" Style="{StaticResource ResourceKey=headingPrimary}">
+            <TextBlock Margin="0 10 0 20"  FontWeight="Light" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Top" Foreground="Goldenrod">
               Member Manager
             </TextBlock>
             <StackPanel Orientation="Vertical">
                 <WrapPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 0 0 10">
                     <StackPanel>
-                        <Label Style="{StaticResource ResourceKey=labelPrimary}" Height="auto" Content="Id"/>
-                        <TextBox Style="{StaticResource ResourceKey=texboxPrimary}" x:Name="searchById" Width="200" Height="30" Margin="0 0 5 0"></TextBox>
+                        <Label  Height="auto" Content="Id"/>
+                        <TextBox x:Name="searchById" Width="150" Height="30" Margin="0 0 5 0"
+                                  Text="{Binding Id, Mode=OneWay}" DataContext="{Binding SelectedItem, ElementName=listView}"
+                                 ></TextBox>
                     </StackPanel>
                     <StackPanel>
-                        <Label Style="{StaticResource ResourceKey=labelPrimary}" Height="auto" Content="Name"/>
-                        <TextBox Style="{StaticResource ResourceKey=texboxPrimary}" x:Name="searchByName" Width="200" Height="30" Margin="0 0 5 0"></TextBox>
+                        <Label Height="auto" Content="Name"/>
+                        <TextBox  x:Name="searchByName" Width="150" Height="30" Margin="0 0 5 0"
+                                  Text="{Binding UserName, Mode=OneWay}" DataContext="{Binding SelectedItem, ElementName=listView}"
+                                 ></TextBox>
                     </StackPanel>
                     <StackPanel>
-                        <Label Style="{StaticResource ResourceKey=labelPrimary}" Height="auto" Content="Address"/>
-                        <TextBox Style="{StaticResource ResourceKey=texboxPrimary}" x:Name="searchByAddress" Width="200" Height="30" Margin="0 0 5 0"></TextBox>
+                        <Label  Height="auto" Content="Address"/>
+                        <TextBox  x:Name="searchByAddress" Width="150" Height="30" Margin="0 0 5 0"
+                                  Text="{Binding Address, Mode=OneWay}" DataContext="{Binding SelectedItem, ElementName=listView}"
+                                 ></TextBox>
                     </StackPanel>
                     <StackPanel>
-                        <Label Style="{StaticResource ResourceKey=labelPrimary}" Height="auto" Content="Phone"/>
-                        <TextBox Style="{StaticResource ResourceKey=texboxPrimary}" x:Name="searchByPhone" Width="200" Height="30" Margin="0 0 5 0"></TextBox>
+                        <Label Height="auto" Content="Phone"/>
+                        <TextBox  x:Name="searchByPhone" Width="150" Height="30" Margin="0 0 5 0"
+                                  Text="{Binding Phone, Mode=OneWay}" DataContext="{Binding SelectedItem, ElementName=listView}"
+                                 ></TextBox>
                     </StackPanel>
-                   
-                    <Button Style="{StaticResource ResourceKey=btnPrimary}" Width="80" Height="30" Padding="5 4" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="Button_Search">
+                    <StackPanel>
+                        <Label Height="auto" Content="Role"/>
+                        <TextBox  x:Name="searchByRole" Width="150" Height="30" Margin="0 0 5 0"
+                                  Text="{Binding Role.Name, Mode=OneWay}" DataContext="{Binding SelectedItem, ElementName=listView}"
+                                 ></TextBox>
+                    </StackPanel>
+
+                    <Button  Width="80" Height="30" Padding="5 4" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="Button_Search" 
+                             Background="Goldenrod" Foreground="White">
                         Search
                     </Button>
                 </WrapPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 0 0 10">
-                    <Button x:Name="btnReload" Style="{StaticResource ResourceKey=btnPrimary}" Width="80" Height="30" Padding="5 4" HorizontalAlignment="Right" Margin="0 0 10 0" Click="Button_Reload">
+                    <Button x:Name="btnReload"  Width="80" Height="30" Padding="5 4" HorizontalAlignment="Right" Margin="0 0 10 0" Click="Button_Reload"
+                             Background="Goldenrod" Foreground="White">
                         Reload
                     </Button>
-                    <Button x:Name="btnDelete" IsEnabled="False" Style="{StaticResource ResourceKey=btnPrimary}" Width="80" Height="30" Padding="5 4" HorizontalAlignment="Right" Margin="0 0 10 0" Click="Button_Delete">
+                    <Button x:Name="btnDelete"  Width="80" Height="30" Padding="5 4" HorizontalAlignment="Right" Margin="0 0 10 0" Click="Button_Delete"
+                          Background="Goldenrod" Foreground="White">
                         Delete
                     </Button>
-                    <Button x:Name="btnEdit" IsEnabled="False" Style="{StaticResource ResourceKey=btnPrimary}" Width="80" Height="30" Padding="5 4" HorizontalAlignment="Right" Margin="0 0 10 0" Click="Button_Edit">
+                    <Button x:Name="btnEdit" Width="80" Height="30" Padding="5 4" HorizontalAlignment="Right" Margin="0 0 10 0" Click="Button_Edit"
+                            Background="Goldenrod" Foreground="White">
                         Edit
                     </Button>
-                    <Button Style="{StaticResource ResourceKey=btnPrimary}" Width="80" Height="30" Padding="5 4" HorizontalAlignment="Right" Margin="0 0 0 0" Click="Button_OpenCreate">
+                    <Button  Width="80" Height="30" Padding="5 4" HorizontalAlignment="Right" Margin="0 0 0 0" Click="Button_OpenCreate"
+                             Background="Goldenrod" Foreground="White">
                         Add New
                     </Button>
                 </StackPanel>
@@ -66,7 +91,7 @@
                             <GridViewColumn Header="MemberName" Width="200" DisplayMemberBinding="{Binding Path=UserName}"/>
                             <GridViewColumn Header="Address" Width="200" DisplayMemberBinding="{Binding Path=Address }"/>
                             <GridViewColumn Header="Phone" Width="200" DisplayMemberBinding="{Binding Path=Phone}"/>
-                            <GridViewColumn Header="Role" Width="100" DisplayMemberBinding="{Binding Path=RoleId}"/>
+                            <GridViewColumn Header="Role" Width="100" DisplayMemberBinding="{Binding Path=RoleId, Converter={StaticResource intToRole}}"/>
                         </GridView>
                     </ListView.View>
                 </ListView>
