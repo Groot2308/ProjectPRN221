@@ -1,4 +1,6 @@
-﻿using System;
+﻿using GoldManagement.Models;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +22,17 @@ namespace GoldManagement
     /// </summary>
     public partial class OrderManager : UserControl
     {
+        public readonly PROJECTPRN221Context _context;
         public OrderManager()
         {
             InitializeComponent();
+            _context = new PROJECTPRN221Context();
+            LoadData();
+        }
+
+        private void LoadData()
+        {
+            listView.ItemsSource = _context.Orders.Include(a => a.User).ToList();
         }
 
         private void Button_Search(object sender, RoutedEventArgs e)
