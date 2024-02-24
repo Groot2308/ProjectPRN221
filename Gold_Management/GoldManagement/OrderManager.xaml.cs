@@ -27,12 +27,27 @@ namespace GoldManagement
         {
             InitializeComponent();
             _context = new PROJECTPRN221Context();
+            listView.MouseDoubleClick += ListView_MouseDoubleClick;
             LoadData();
         }
+        private void ListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            var item = ItemsControl.ContainerFromElement((ListView)sender, e.OriginalSource as DependencyObject) as ListViewItem;
+            if (item == null)
+                return;
+            var selectedOrder = (Order)item.DataContext;
+            ShowOrderDetailsWindow(selectedOrder);
+        }
+        private void ShowOrderDetailsWindow(Order order)
+        {
+            var detailsWindow = new OrderDetailManager(order);
+            detailsWindow.Show();
+        }
+
 
         private void LoadData()
         {
-            listView.ItemsSource = _context.Orders.Include(a => a.User).ToList();
+            listView.ItemsSource = _context.Orders.Include(a => a.Status).ToList();
         }
 
         private void Button_Search(object sender, RoutedEventArgs e)

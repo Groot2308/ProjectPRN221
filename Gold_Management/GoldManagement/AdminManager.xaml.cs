@@ -115,8 +115,6 @@ namespace GoldManagement
         private void ProductManagerButton_Click(object sender, RoutedEventArgs e)
         {
                 ProductManagerView = new ProductManager();
-           
-
         }
     }
 }
