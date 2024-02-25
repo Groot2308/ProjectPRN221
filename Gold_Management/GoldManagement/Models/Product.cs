@@ -12,7 +12,7 @@ namespace GoldManagement.Models
 
         public string Id { get; set; } = null!;
         public string? Name { get; set; }
-        public double? Quantity { get; set; }
+        public int? Quantity { get; set; }
         public int? CategoryId { get; set; }
         public double? PurchasePrice { get; set; }
         public double? RetailPrice { get; set; }

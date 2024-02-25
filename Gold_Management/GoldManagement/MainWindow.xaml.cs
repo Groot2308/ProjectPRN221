@@ -54,6 +54,8 @@ namespace GoldManagement
             if (account != null)
             {
                 Session.Account = account;
+                Session.Username = username;    
+                
                 if (account.RoleId == 1)
                 {
                     this.Hide();
@@ -62,10 +64,11 @@ namespace GoldManagement
                 }
                 else
                 {
-                    MessageBox.Show("Staff");
+                    this.Hide();
+                    Home home = new Home();
+                    home.Show();
                 }
             }
-
             else
             {
                 MessageBox.Show("Please enter username and password");

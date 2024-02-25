@@ -37,7 +37,7 @@ namespace GoldManagement
             Product product = new Product();
             product.Id = searchById.Text;
             product.Name = searchByName.Text;
-            product.Quantity =double.Parse(searchByQuantity.Text);
+            product.Quantity =int.Parse(searchByQuantity.Text);
             product.PurchasePrice = double.Parse(searchByPurchasePrice.Text);
             product.RetailPrice = double.Parse(searchByRetailPrice.Text);
             product.Stock = int.Parse(searchByStock.Text);

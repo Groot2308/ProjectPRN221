@@ -12,5 +12,7 @@ namespace GoldManagement
         public static Account Account { get; set; }
         public static string? Username { get; set; } = null;
         public static List<OrderDetail> carts { get; set; } = null;
+
+        public static int? mode { get; set; } = null;
     }
 }
