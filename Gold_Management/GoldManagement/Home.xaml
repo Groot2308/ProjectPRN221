@@ -36,7 +36,7 @@
                                         <Image Source="D:\ProjectPRN221\ProjectPRN221\Gold_Management\GoldManagement\Resource\icon\history.png" Height="30" Width="30"></Image>
                                     </Grid>
                                 </Button>
-                       
+
                             </StackPanel>
                         </Grid>
                     </DockPanel>
@@ -69,9 +69,15 @@
                                 Search
                             </Button>
                             <Button Width="80" Height="30" Padding="5 4" Click="Button_Load" Background="Goldenrod" Foreground="white" Margin="5 0 0 0">
-                               ReLoad
+                                ReLoad
                             </Button>
                         </StackPanel>
+                        <Button 
+                                Click="Logout_Click" Width="75" Height="28" Background="#FFED1313" Foreground="White" Margin="0 330 120 0">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="LOGOUT"/>
+                            </StackPanel>
+                        </Button>
                     </StackPanel>
                 </Border>
             </Grid>
@@ -104,7 +110,7 @@
                                                             <TextBlock FontSize="15">Purchase Price:</TextBlock>
                                                             <TextBlock Margin="5" Text="{Binding PurchasePrice, StringFormat={}{0:N0}}" FontSize="15" FontFamily="Franklin Gothic Medium"/>
                                                         </StackPanel>
-                                                       
+
                                                         <StackPanel Margin="5 0" Orientation="Horizontal">
                                                             <TextBlock FontSize="15">Category:</TextBlock>
                                                             <TextBlock Margin="5 0" Text="{Binding Category.Name}" FontSize="15"/>

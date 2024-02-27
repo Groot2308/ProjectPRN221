@@ -17,6 +17,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Xml.Linq;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace GoldManagement
 {
@@ -36,6 +37,7 @@ namespace GoldManagement
         public void LoadData()
         {
             listView.ItemsSource = _context.Accounts.Include(a => a.Role).ToList();
+            searchByRole.ItemsSource = _context.Roles.ToList();
         }
         private Account getData()
         {
@@ -44,7 +46,7 @@ namespace GoldManagement
             account.UserName = searchByName.Text;
             account.Address = searchByAddress.Text;
             account.Phone = searchByPhone.Text;
-            account.RoleId = 2;
+            account.RoleId = Int32.Parse(searchByRole.SelectedValue.ToString()); ;
             return account;
         }
 
@@ -54,9 +56,10 @@ namespace GoldManagement
             string name = searchByName.Text;
             string address = searchByAddress.Text;
             string phone = searchByPhone.Text;
-            Search(id, name, address, phone);
+            int? roleId = string.IsNullOrEmpty(searchByRole.SelectedValue?.ToString()) ? (int ?)null : Int32.Parse(searchByRole.SelectedValue.ToString());
+            Search(id, name, address, phone, roleId);
         }
-        public void Search(string id, string name, string address, string phone)
+        public void Search(string id, string name, string address, string phone, int? roleId)
         {
 
             var account = _context.Accounts.ToList();
@@ -65,7 +68,8 @@ namespace GoldManagement
              (string.IsNullOrEmpty(id) || c.Id.ToUpper().Contains(id.ToUpper())) &&
              (string.IsNullOrEmpty(name) || c.UserName.Contains(name)) &&
              (string.IsNullOrEmpty(address) || c.Address.Contains(address)) &&
-             (string.IsNullOrEmpty(phone) || c.Phone.Contains(phone))
+             (string.IsNullOrEmpty(phone) || c.Phone.Contains(phone)) &&
+             (!roleId.HasValue || c.RoleId == roleId)
              ).ToList();
 
             listView.ItemsSource = account;
@@ -111,6 +115,7 @@ namespace GoldManagement
                     oldInfor.UserName = account.UserName;
                     oldInfor.Address = account.Address;
                     oldInfor.Phone = account.Phone;
+                    oldInfor.RoleId = account.RoleId;   
                     _context.Accounts.Update(oldInfor);
                     _context.SaveChanges();
                     LoadData();
@@ -118,7 +123,7 @@ namespace GoldManagement
                 }
                 else
                 {
-                    MessageBox.Show("The MedicineId " + account.Id.ToString() + " is not exited!");
+                    MessageBox.Show("The Account Id " + account.Id.ToString() + " is not exited!");
                 }
             }
         }
@@ -138,7 +143,7 @@ namespace GoldManagement
                 }
                 else
                 {
-                    MessageBox.Show("The MedicineId " + account.Id.ToString() + " is exited!");
+                    MessageBox.Show("The Account Id " + account.Id.ToString() + " is exited!");
                 }
             }
         }

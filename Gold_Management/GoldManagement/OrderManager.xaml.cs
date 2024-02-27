@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Xml.Linq;
 
 namespace GoldManagement
 {
@@ -47,12 +48,30 @@ namespace GoldManagement
 
         private void LoadData()
         {
-            listView.ItemsSource = _context.Orders.Include(a => a.Status).ToList();
+            listView.ItemsSource = _context.Orders.Include(a => a.Status)
+                .OrderByDescending(order => order.OrderDate).ToList();
+            searchByStatus.ItemsSource = _context.OrderStatuses.ToList();
         }
 
         private void Button_Search(object sender, RoutedEventArgs e)
         {
+            DateTime? startDate = StartDate.SelectedDate == null ? null : StartDate.SelectedDate.Value.Date;
+            DateTime? endDate = EndDate.SelectedDate == null ? null : EndDate.SelectedDate.Value.Date;
+            int? StatusId = string.IsNullOrEmpty(searchByStatus.SelectedValue?.ToString()) ? (int?)null : Int32.Parse(searchByStatus.SelectedValue.ToString());
+            Search(startDate, endDate, StatusId);
 
+        }
+
+        private void Search(DateTime? startDate, DateTime? endDate, int? statusId)
+        {
+            var orders = _context.Orders.ToList();
+            orders = orders.Where(order =>
+                (!startDate.HasValue || order.OrderDate >= startDate) &&
+                (!endDate.HasValue || order.OrderDate <= endDate) &&
+                (!statusId.HasValue || order.StatusId == statusId)
+            ).OrderByDescending(order => order.OrderDate).ToList();
+
+            listView.ItemsSource = orders;
         }
 
         private void ListView_SizeChanged(object sender, SizeChangedEventArgs e)

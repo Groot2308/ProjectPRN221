@@ -26,7 +26,7 @@ namespace GoldManagement
         {
             InitializeComponent();
             _context = new PROJECTPRN221Context();
-            LoadData(); 
+            LoadData();
 
 
         }
@@ -42,7 +42,7 @@ namespace GoldManagement
             string id = searchById.Text;
             string name = searchByName.Text;
             int CategoryId = string.IsNullOrEmpty(searchByCategory.SelectedValue?.ToString()) ? 0 : Int32.Parse(searchByCategory.SelectedValue.ToString());
-            Search( id,  name,  CategoryId);
+            Search(id, name, CategoryId);
         }
         public void Search(string id, string name, int CategoryId)
         {
@@ -59,81 +59,89 @@ namespace GoldManagement
 
         private void AddToCart(object sender, RoutedEventArgs e)
         {
-            int status =int.Parse(cboStatus.SelectedValue.ToString());
-            if (status == 1)
-            {
-                Button? button = (Button)sender;
-                if (button != null)
-                {
-                    var tag = button.Tag;
-                    if (!string.IsNullOrEmpty(tag.ToString()))
-                    {
-                        string id = tag.ToString();
-                        Product product = _context.Products.FirstOrDefault(p => p.Id == id);
 
-                        OrderDetail orderDetail = new OrderDetail();
-                        orderDetail.ProductId = product.Id;
-                        orderDetail.QuantityPurchased = 0;
-                        orderDetail.QuantitySell = product.Quantity;
-                        orderDetail.Price = product.RetailPrice;
-                        orderDetail.Product = product;
-                        if (Session.carts == null)
+            if (cboStatus.SelectedValue != null && !string.IsNullOrEmpty(cboStatus.SelectedValue.ToString()))
+            {
+                int status = int.Parse(cboStatus.SelectedValue.ToString());
+                if (status == 1)
+                {
+                    Button? button = (Button)sender;
+                    if (button != null)
+                    {
+                        var tag = button.Tag;
+                        if (!string.IsNullOrEmpty(tag.ToString()))
                         {
-                            Session.carts = new List<OrderDetail> { orderDetail };
-                            Session.mode = 1;
-                        }
-                        else
-                        {
-                            int index = Session.carts.FindIndex(cart => cart.ProductId == orderDetail.ProductId);
-                            if (index == -1)
+                            string id = tag.ToString();
+                            Product product = _context.Products.FirstOrDefault(p => p.Id == id);
+
+                            OrderDetail orderDetail = new OrderDetail();
+                            orderDetail.ProductId = product.Id;
+                            orderDetail.QuantityPurchased = 0;
+                            orderDetail.QuantitySell = product.Quantity;
+                            orderDetail.Price = product.RetailPrice;
+                            orderDetail.Product = product;
+                            if (Session.carts == null)
                             {
-                                Session.carts.Add(orderDetail);
+                                Session.carts = new List<OrderDetail> { orderDetail };
+                                Session.mode = 1;
                             }
                             else
                             {
-                                Session.carts[index].QuantitySell++;
+                                int index = Session.carts.FindIndex(cart => cart.ProductId == orderDetail.ProductId);
+                                if (index == -1)
+                                {
+                                    Session.carts.Add(orderDetail);
+                                }
+                                else
+                                {
+                                    Session.carts[index].QuantitySell++;
+                                }
+                            }
+                        }
+
+                    }
+                }
+                else
+                {
+                    Button? button = (Button)sender;
+                    if (button != null)
+                    {
+                        var tag = button.Tag;
+                        if (!string.IsNullOrEmpty(tag.ToString()))
+                        {
+                            string id = tag.ToString();
+                            Product product = _context.Products.FirstOrDefault(p => p.Id == id);
+
+                            OrderDetail orderDetail = new OrderDetail();
+                            orderDetail.ProductId = product.Id;
+                            orderDetail.QuantityPurchased = product.Quantity;
+                            orderDetail.QuantitySell = 0;
+                            orderDetail.Price = product.PurchasePrice;
+                            orderDetail.Product = product;
+                            if (Session.carts == null)
+                            {
+                                Session.carts = new List<OrderDetail> { orderDetail };
+                                Session.mode = 2;
+                            }
+                            else
+                            {
+                                int index = Session.carts.FindIndex(cart => cart.ProductId == orderDetail.ProductId);
+                                if (index == -1)
+                                {
+                                    Session.carts.Add(orderDetail);
+                                }
+                                else
+                                {
+                                    Session.carts[index].QuantityPurchased++;
+                                }
                             }
                         }
                     }
-
                 }
             }
             else
             {
-                Button? button = (Button)sender;
-                if (button != null)
-                {
-                    var tag = button.Tag;
-                    if (!string.IsNullOrEmpty(tag.ToString()))
-                    {
-                        string id = tag.ToString();
-                        Product product = _context.Products.FirstOrDefault(p => p.Id == id);
-
-                        OrderDetail orderDetail = new OrderDetail();
-                        orderDetail.ProductId = product.Id;
-                        orderDetail.QuantityPurchased = product.Quantity;
-                        orderDetail.QuantitySell = 0;
-                        orderDetail.Price = product.PurchasePrice;
-                        orderDetail.Product = product;
-                        if (Session.carts == null)
-                        {
-                            Session.carts = new List<OrderDetail> { orderDetail };
-                            Session.mode = 2;
-                        }
-                        else
-                        {
-                            int index = Session.carts.FindIndex(cart => cart.ProductId == orderDetail.ProductId);
-                            if (index == -1)
-                            {
-                                Session.carts.Add(orderDetail);
-                            }
-                            else
-                            {
-                                Session.carts[index].QuantityPurchased++;
-                            }
-                        }
-                    }
-                }
+                MessageBox.Show("Chọn Đơn Mua hay Đơn bán");
             }
         }
 
@@ -145,12 +153,20 @@ namespace GoldManagement
 
         private void Button_OpenMyOrder(object sender, RoutedEventArgs e)
         {
-
+            MyOrder myOrder = new MyOrder();
+            myOrder.Show();
         }
 
         private void Button_Load(object sender, RoutedEventArgs e)
         {
             LoadData();
+        }
+
+        private void Logout_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+            MainWindow mainWindow = new MainWindow();
+            mainWindow.Show();
         }
     }
 }

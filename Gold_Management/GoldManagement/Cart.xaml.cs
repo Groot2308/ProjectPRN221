@@ -43,6 +43,7 @@ namespace GoldManagement
             {
                 listView.ItemsSource = Session.carts.ToList();
                 TxtBoxTotalPrice.Text = Session.carts.Sum(cart => (cart.QuantitySell * cart.Product.RetailPrice)).ToString();
+
             }
             else
             {
@@ -92,6 +93,7 @@ namespace GoldManagement
                 MessageBox.Show("done");
                 Session.carts = new List<OrderDetail>();
                 updateCarts();
+               
             }
             else
             {
@@ -132,6 +134,7 @@ namespace GoldManagement
                 Session.carts = new List<OrderDetail>();
                 updateCarts();
             }
+            Session.mode = 0;
         }
 
 
