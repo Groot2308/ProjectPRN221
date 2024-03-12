@@ -24,7 +24,7 @@
                             <GridViewColumn Header="Customer" Width="100" DisplayMemberBinding="{Binding Path=CustomerName}"/>
                             <GridViewColumn Header="OrderDate" Width="200" DisplayMemberBinding="{Binding Path=OrderDate}"/>
                             <GridViewColumn Header="Amount" Width="200" DisplayMemberBinding="{Binding Path=Amount}"/>
-                            <GridViewColumn Header="Status" Width="200" DisplayMemberBinding="{Binding Path=StatusId}"/>
+                            <GridViewColumn Header="Status" Width="200" DisplayMemberBinding="{Binding Path=Status.Name}"/>
                         </GridView>
                     </ListView.View>
                 </ListView>

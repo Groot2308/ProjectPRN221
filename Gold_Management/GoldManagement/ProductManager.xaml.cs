@@ -94,7 +94,7 @@ namespace GoldManagement
                 }
                 else
                 {
-                    MessageBox.Show("The MedicineId " + product.Id.ToString() + " is exited!");
+                    MessageBox.Show("The product " + product.Id.ToString() + " is exited!");
                 }
             }
         }
@@ -120,7 +120,7 @@ namespace GoldManagement
                 }
                 else
                 {
-                    MessageBox.Show("The MedicineId " + product.Id.ToString() + " is not exited!");
+                    MessageBox.Show("The product Id " + product.Id.ToString() + " is not exited!");
                 }
             }
         }
@@ -144,7 +144,7 @@ namespace GoldManagement
                 }
                 else
                 {
-                    MessageBox.Show("The Account Id " + product.Id.ToString() + " is not exited!");
+                    MessageBox.Show("The product Id " + product.Id.ToString() + " is not exited!");
                 }
             }
         }

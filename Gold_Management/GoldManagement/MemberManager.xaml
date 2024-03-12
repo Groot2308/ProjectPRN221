@@ -24,7 +24,7 @@
                 <WrapPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 0 0 10">
                     <StackPanel>
                         <Label  Height="auto" Content="Id"/>
-                        <TextBox x:Name="searchById" Width="150" Height="30" Margin="0 0 5 0"
+                        <TextBox x:Name="searchById" Width="97" Height="30" Margin="0 0 5 0"
                                   Text="{Binding Id, Mode=OneWay}" DataContext="{Binding SelectedItem, ElementName=listView}"
                                  ></TextBox>
                     </StackPanel>
@@ -55,6 +55,12 @@
                                      SelectedValue="{Binding RoleId}"
                                      DataContext="{Binding SelectedItem,ElementName=listView}"
                                  />
+                    </StackPanel>
+                    <StackPanel>
+                        <Label Height="auto" Content="Password"/>
+                        <TextBox  x:Name="searchByPassword" Width="150" Height="30" Margin="0 0 5 0"
+                                  Text="{Binding Password, Mode=OneWay}" DataContext="{Binding SelectedItem, ElementName=listView}"
+                                 ></TextBox>
                     </StackPanel>
 
                     <Button  Width="80" Height="30" Padding="5 4" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="Button_Search" 
@@ -95,6 +101,7 @@
                             <GridViewColumn Header="MemberName" Width="200" DisplayMemberBinding="{Binding Path=UserName}"/>
                             <GridViewColumn Header="Address" Width="200" DisplayMemberBinding="{Binding Path=Address }"/>
                             <GridViewColumn Header="Phone" Width="200" DisplayMemberBinding="{Binding Path=Phone}"/>
+                            <GridViewColumn Header="Password" Width="200" DisplayMemberBinding="{Binding Path=Password}"/>
                             <GridViewColumn Header="Role" Width="100" DisplayMemberBinding="{Binding Path=RoleId, Converter={StaticResource intToRole}}"/>
                         </GridView>
                     </ListView.View>

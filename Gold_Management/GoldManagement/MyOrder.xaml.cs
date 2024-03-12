@@ -1,4 +1,5 @@
 ﻿using GoldManagement.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,7 +31,7 @@ namespace GoldManagement
 
         private void LoadData()
         {
-            listView.ItemsSource = _context.Orders.Where(o => o.UserId == Session.Account.Id)
+            listView.ItemsSource = _context.Orders.Include(order => order.Status).Where(o => o.UserId == Session.Account.Id)
                 .OrderByDescending(o => o.OrderDate)   
                 .ToList();
         }
