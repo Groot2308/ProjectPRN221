@@ -29,6 +29,10 @@
                     </ListView.View>
                 </ListView>
             </Grid>
+            <Grid>
+                <TextBlock Text="Total:" Width="100" Margin="523,16,177,-16" FontSize="24"/>
+                <TextBlock x:Name="txttotal" Margin="581,16,10,-16" FontSize="24"/>
+            </Grid>
         </StackPanel>
     </Grid>
 </Window>

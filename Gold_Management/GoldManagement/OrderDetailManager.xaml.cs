@@ -31,6 +31,17 @@ namespace GoldManagement
                          .Where(od => od.OrderId == order.Id)
                          .ToList();
             listView.ItemsSource = orderDetails;
+            double totalPrice = 0;
+
+            foreach (var item in orderDetails)
+            {
+                double itemPrice = item.Price ?? 0; 
+                int quantity = (item.QuantityPurchased ?? 0) == 0 ? (item.QuantitySell ?? 0) : (item.QuantityPurchased ?? 0); 
+                totalPrice += itemPrice * quantity;
+            }
+            txttotal.Text = totalPrice.ToString();
+
+
         }
 
         private void ListView_SizeChanged(object sender, SizeChangedEventArgs e)

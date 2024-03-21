@@ -67,6 +67,10 @@
                     </Button>
                 </WrapPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 0 0 10">
+                    <Button Width="80" Height="30" Padding="5 4" HorizontalAlignment="Right" Margin="0 0 10 0" Click="Button_Export"
+                            Background="#FF29DA20" Foreground="White">
+                        Export
+                    </Button>
                     <Button x:Name="btnReload"  Width="80" Height="30" Padding="5 4" HorizontalAlignment="Right" Margin="0 0 10 0" Click="Button_Reload"
                             Background="Goldenrod" Foreground="White">
                         Reload
@@ -79,9 +83,13 @@
                             Background="Goldenrod" Foreground="White">
                         Edit
                     </Button>
-                    <Button Width="80" Height="30" Padding="5 4" HorizontalAlignment="Right" Margin="0 0 0 0" Click="Button_OpenCreate"
+                    <Button Width="80" Height="30" Padding="5 4" HorizontalAlignment="Right" Margin="0 0 10 0" Click="Button_OpenCreate"
                             Background="Goldenrod" Foreground="White">
                         Add New
+                    </Button>
+                    <Button Width="80" Height="30" Padding="5 4" HorizontalAlignment="Right" Margin="0 0 10 0" Click="Button_Import"
+                            Background="#FF29DA20" Foreground="White">
+                        Import
                     </Button>
                 </StackPanel>
             </StackPanel>

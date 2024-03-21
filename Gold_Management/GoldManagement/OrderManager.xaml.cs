@@ -16,6 +16,11 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Xml.Linq;
 
+using System.Data;
+using System.IO;
+using ClosedXML.Excel;
+using Microsoft.Win32;
+
 namespace GoldManagement
 {
     /// <summary>
@@ -78,5 +83,78 @@ namespace GoldManagement
         {
 
         }
+
+        private void Button_Export(object sender, RoutedEventArgs e)
+        {
+            List<Order> orders = listView.ItemsSource as List<Order>;
+            DataTable orderTable = ConvertToDataTable(orders);
+            List<OrderDetail> orderDetails = _context.OrderDetails.Include(o => o.Product).OrderByDescending(o => o.OrderId).ToList();
+            DataTable orderDetailTable = ConvertToOrderDetailDataTable(orderDetails);
+
+            // Xuất ra file Excel
+           ExportToExcel(orderTable, orderDetailTable);
+        }
+
+        private DataTable ConvertToDataTable(List<Order> orders)
+        {
+            DataTable dt = new DataTable();
+            dt.Columns.Add("OrderId");
+            dt.Columns.Add("Staff");
+            dt.Columns.Add("CustomerName");
+            dt.Columns.Add("OrderDate");
+            dt.Columns.Add("Amount");
+            dt.Columns.Add("Status");
+
+            foreach (var order in orders)
+            {
+                dt.Rows.Add(order.Id, order.UserId, order.CustomerName, order.OrderDate, order.Amount, order.Status.Name);
+            }
+
+            return dt;
+        }
+        private DataTable ConvertToOrderDetailDataTable(List<OrderDetail> OrderDetails)
+        {
+            DataTable dt = new DataTable();
+            dt.Columns.Add("OrderId");
+            dt.Columns.Add("ProductId");
+            dt.Columns.Add("ProductName");
+            dt.Columns.Add("QuantityPurchased");
+            dt.Columns.Add("QuantitySell");
+            dt.Columns.Add("Price");
+
+                foreach (var detail in OrderDetails)
+                {
+                    dt.Rows.Add(detail.OrderId, detail.ProductId, detail.Product.Name, detail.QuantityPurchased,detail.QuantitySell, detail.Price);
+                }
+
+            return dt;
+        }
+        private void ExportToExcel(DataTable orderTable, DataTable orderDetailTable)
+        {
+            using (XLWorkbook wb = new XLWorkbook())
+            {
+                wb.Worksheets.Add(orderTable, "Orders");
+                wb.Worksheets.Add(orderDetailTable, "OrderDetails");
+
+                SaveFileDialog saveFileDialog = new SaveFileDialog();
+                saveFileDialog.Filter = "Excel files (*.xlsx)|*.xlsx|All files (*.*)|*.*";
+                saveFileDialog.FileName = "Orders.xlsx";
+                bool? result = saveFileDialog.ShowDialog();
+                if (result == true)
+                {
+                    string filePath = saveFileDialog.FileName;
+                    using (MemoryStream stream = new MemoryStream())
+                    {
+                        wb.SaveAs(stream);
+                        byte[] bytes = stream.ToArray();
+                        File.WriteAllBytes(filePath, bytes);
+                    }
+
+                    MessageBox.Show("File đã được lưu thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+            }
+        }
+
+
     }
 }

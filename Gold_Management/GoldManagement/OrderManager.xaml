@@ -18,7 +18,7 @@
                 <WrapPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 0 0 10">
                     <StackPanel>
                         <Label Style="{StaticResource ResourceKey=labelPrimary}" Height="auto" Content="Status"/>
-                        <ComboBox Name="searchByStatus" Width="200" Height="30" Margin="0 0 5 0"
+                        <ComboBox Name="searchByStatus" Width="162" Height="30" Margin="0 0 5 0"
                                      ItemsSource="{Binding StatusId, Mode=OneWay}"   
                                      DisplayMemberPath="Name"
                                      SelectedValuePath="Id"
@@ -36,6 +36,9 @@
                     </StackPanel>
                     <Button Style="{StaticResource ResourceKey=btnPrimary}" Width="80" Height="30" Padding="5 4" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="Button_Search">
                         Search
+                    </Button>
+                    <Button Style="{StaticResource ResourceKey=btnPrimary}" Width="80" Margin="5 0 0 0 " Height="30" Padding="5 4" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="Button_Export" Background="#FF19B52E">
+                        Export
                     </Button>
                 </WrapPanel>
             </StackPanel>

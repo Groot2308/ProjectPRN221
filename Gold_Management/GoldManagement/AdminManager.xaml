@@ -97,7 +97,7 @@
             </StackPanel>
             <Border CornerRadius="0,10,10,0"
                     Grid.Column="1">
-                    <Border.Background>
+                <Border.Background>
                     <LinearGradientBrush StartPoint="1,1" EndPoint="0,0">
                         <GradientStop Color="{StaticResource secondaryBackColor1}" Offset="0"/>
                         <GradientStop Color="{StaticResource secondaryBackColor1}" Offset="1"/>
