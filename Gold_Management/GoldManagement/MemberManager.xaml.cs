@@ -46,6 +46,7 @@ namespace GoldManagement
             account.UserName = searchByName.Text;
             account.Address = searchByAddress.Text;
             account.Phone = searchByPhone.Text;
+            account.Password = searchByPassword.Text;
             account.RoleId = Int32.Parse(searchByRole.SelectedValue.ToString()); ;
             return account;
         }
@@ -115,6 +116,7 @@ namespace GoldManagement
                     oldInfor.UserName = account.UserName;
                     oldInfor.Address = account.Address;
                     oldInfor.Phone = account.Phone;
+                    oldInfor.Password = account.Password;
                     oldInfor.RoleId = account.RoleId;   
                     _context.Accounts.Update(oldInfor);
                     _context.SaveChanges();

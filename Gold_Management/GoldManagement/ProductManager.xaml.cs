@@ -21,6 +21,11 @@ using System.Data;
 using System.IO;
 using ClosedXML.Excel;
 using Microsoft.Win32;
+using System.Xml.Serialization;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using System.Net.Http.Json;
+using Newtonsoft.Json;
 
 namespace GoldManagement
 {
@@ -45,8 +50,9 @@ namespace GoldManagement
             product.Quantity = int.Parse(searchByQuantity.Text);
             product.PurchasePrice = double.Parse(searchByPurchasePrice.Text);
             product.RetailPrice = double.Parse(searchByRetailPrice.Text);
-            product.Stock = int.Parse(searchByStock.Text);
+            product.Date = searchByDate.SelectedDate;
             product.CategoryId = Int32.Parse(searchByCategory.SelectedValue.ToString());
+            product.Stock = 10;
             return product;
         }
         public void LoadData()
@@ -62,12 +68,12 @@ namespace GoldManagement
             double Quantity = string.IsNullOrEmpty(searchByQuantity.Text) ? 0 : double.Parse(searchByQuantity.Text);
             double PurchasePrice = string.IsNullOrEmpty(searchByPurchasePrice.Text) ? 0 : double.Parse(searchByPurchasePrice.Text);
             double RetailPrice = string.IsNullOrEmpty(searchByRetailPrice.Text) ? 0 : double.Parse(searchByRetailPrice.Text);
-            int Stock = string.IsNullOrEmpty(searchByStock.Text) ? 0 : int.Parse(searchByStock.Text);
+            DateTime? slDate = searchByDate.SelectedDate != null ? searchByDate.SelectedDate.Value : (DateTime?)null;
             int CategoryId = string.IsNullOrEmpty(searchByCategory.SelectedValue?.ToString()) ? 0 : Int32.Parse(searchByCategory.SelectedValue.ToString());
-            Search(id, name, Quantity, PurchasePrice, RetailPrice, Stock, CategoryId);
+            Search(id, name, Quantity, PurchasePrice, RetailPrice, slDate, CategoryId);
 
         }
-        public void Search(string id, string name, double Quantity, double PurchasePrice, double RetailPrice, int Stock, int CategoryId)
+        public void Search(string id, string name, double Quantity, double PurchasePrice, double RetailPrice, DateTime? slDate, int CategoryId)
         {
             var products = _context.Products.ToList();
 
@@ -77,7 +83,7 @@ namespace GoldManagement
                 (Quantity == 0 || c.Quantity == Quantity) &&
                 (PurchasePrice == 0 || c.PurchasePrice == PurchasePrice) &&
                 (RetailPrice == 0 || c.RetailPrice == RetailPrice) &&
-                (Stock == 0 || c.Stock == Stock) &&
+                (slDate == null || c.Date == slDate) &&
                 (CategoryId == 0 || c.CategoryId == CategoryId)
             ).ToList();
             listView.ItemsSource = products;
@@ -112,12 +118,51 @@ namespace GoldManagement
                 var oldInfor = _context.Products.FirstOrDefault(c => c.Id == product.Id);
                 if (oldInfor != null)
                 {
+                    List<Product> existingProducts = new List<Product>();
+                    if (File.Exists("OldGold.json"))
+                    {
+                        string existingJson = File.ReadAllText("OldGold.json");
+                        existingProducts = JsonConvert.DeserializeObject<List<Product>>(existingJson);
+                        //foreach (Product newProduct in oldInfor)
+                        //{
+                            Product existingProduct = existingProducts.Find(p => p.Id == oldInfor.Id);
+                            if (existingProduct != null)
+                            {
+                                existingProduct.Name = oldInfor.Name;
+                                existingProduct.Quantity = oldInfor.Quantity;
+                                existingProduct.CategoryId = oldInfor.CategoryId;
+                                existingProduct.PurchasePrice = oldInfor.PurchasePrice;
+                                existingProduct.RetailPrice = oldInfor.RetailPrice;
+                                existingProduct.Date = oldInfor.Date;
+                            }
+                            else
+                            {
+                                existingProducts.Add(oldInfor);
+                            }
+                        //}
+                    }
+                    else
+                    {
+                        //existingProducts = oldInfor;
+                    }
+                    //string updatedJson = JsonConvert.SerializeObject(existingProducts);
+                    var settings = new JsonSerializerSettings
+                    {
+                        ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                    };
+                    string updatedJson = JsonConvert.SerializeObject(existingProducts, settings);
+                    File.WriteAllText("OldGold.json", updatedJson);
+                }
+
+                if (oldInfor != null)
+                {
+
                     oldInfor.Name = product.Name;
                     oldInfor.Quantity = product.Quantity;
                     oldInfor.CategoryId = product.CategoryId;
                     oldInfor.PurchasePrice = product.PurchasePrice;
                     oldInfor.RetailPrice = product.RetailPrice;
-                    oldInfor.Stock = product.Stock;
+                    oldInfor.Date = DateTime.Now;
                     _context.Products.Update(oldInfor);
                     _context.SaveChanges();
                     LoadData();
@@ -208,7 +253,8 @@ namespace GoldManagement
                         PurchasePrice = purchasePrice,
                         RetailPrice = retailPrice,
                         Stock = stock,
-                        CategoryId = categoryId
+                        CategoryId = categoryId,
+                        Date = DateTime.Now,
                     };
                     products.Add(product);
                 }
@@ -219,6 +265,47 @@ namespace GoldManagement
 
         private void ImportProductsToDatabase(List<Product> products)
         {
+            //if (products != null)
+            //{
+            //    string json = JsonConvert.SerializeObject(products);
+            //    string jsonFilePath = "OldGold.json";
+            //    File.WriteAllText(jsonFilePath, json);
+            //}
+
+            if (products != null)
+            {
+                List<Product> existingProducts = new List<Product>();
+                if (File.Exists("OldGold.json"))
+                {
+                    string existingJson = File.ReadAllText("OldGold.json");
+                    existingProducts = JsonConvert.DeserializeObject<List<Product>>(existingJson);
+                    foreach (Product newProduct in products)
+                    {
+                        var oldInfor = _context.Products.FirstOrDefault(c => c.Id == newProduct.Id);
+                        Product existingProduct = existingProducts.Find(p => p.Id == newProduct.Id);
+                        if (existingProduct != null)
+                        {
+                            existingProduct.Name = oldInfor.Name;
+                            existingProduct.Quantity = oldInfor.Quantity;
+                            existingProduct.CategoryId = oldInfor.CategoryId;
+                            existingProduct.PurchasePrice = oldInfor.PurchasePrice;
+                            existingProduct.RetailPrice = oldInfor.RetailPrice;
+                            existingProduct.Date = oldInfor.Date;
+                        }
+                        else
+                        {
+                            existingProducts.Add(newProduct);
+                        }
+                    }
+                }
+                else
+                {
+                    existingProducts = products;
+                }
+                string updatedJson = JsonConvert.SerializeObject(existingProducts);
+                File.WriteAllText("OldGold.json", updatedJson);
+            }
+
             foreach (var product in products)
             {
                 var existingProduct = _context.Products.FirstOrDefault(p => p.Id == product.Id);
@@ -230,6 +317,7 @@ namespace GoldManagement
                     existingProduct.RetailPrice = product.RetailPrice;
                     existingProduct.Stock = product.Stock;
                     existingProduct.CategoryId = product.CategoryId;
+                    existingProduct.Date = product.Date;
                     _context.Products.Update(existingProduct);
                     _context.SaveChanges();
                 }
@@ -241,7 +329,7 @@ namespace GoldManagement
             }
             LoadData();
 
-            MessageBox.Show("Import completed successfully!");
+            MessageBox.Show("Nhập sản phẩm thành công!");
         }
 
         private void Button_Export(object sender, RoutedEventArgs e)
@@ -301,10 +389,11 @@ namespace GoldManagement
             dt.Columns.Add("PurchasePrice");
             dt.Columns.Add("RetailPrice");
             dt.Columns.Add("Stock");
+            dt.Columns.Add("Date");
 
             foreach (var detail in products)
             {
-                dt.Rows.Add(detail.Id, detail.Name, detail.Quantity, detail.CategoryId, detail.PurchasePrice, detail.RetailPrice, detail.Stock);
+                dt.Rows.Add(detail.Id, detail.Name, detail.Quantity, detail.CategoryId, detail.PurchasePrice, detail.RetailPrice, detail.Stock, detail.Date);
             }
 
             return dt;

@@ -24,6 +24,7 @@ namespace GoldManagement
         private UserControl _productManagerView;
         private UserControl _OrderManagerView;
         private UserControl _MemberManagerView;
+        private UserControl _PriceFluctuationsView;
 
         public event PropertyChangedEventHandler PropertyChanged;
         public UserControl ProductManagerView
@@ -33,6 +34,15 @@ namespace GoldManagement
             {
                 _productManagerView = value;
                 OnPropertyChanged(nameof(ProductManagerView));
+            }
+        }
+        public UserControl PriceFluctuationsView
+        {
+            get { return _PriceFluctuationsView; }
+            set
+            {
+                _productManagerView = value;
+                OnPropertyChanged(nameof(PriceFluctuationsView));
             }
         }
         public UserControl OrderManagerView
@@ -115,6 +125,10 @@ namespace GoldManagement
         private void ProductManagerButton_Click(object sender, RoutedEventArgs e)
         {
                 ProductManagerView = new ProductManager();
+        }
+        private void followPriceButton_Click(object sender, RoutedEventArgs e)
+        {
+            ProductManagerView = new PriceFluctuations();
         }
     }
 }

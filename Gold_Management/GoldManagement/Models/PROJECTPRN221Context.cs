@@ -32,7 +32,6 @@ namespace GoldManagement.Models
                 var ConnectionString = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetConnectionString("DefaultConnection");
                 optionsBuilder.UseSqlServer(ConnectionString);
             }
-
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -114,6 +113,8 @@ namespace GoldManagement.Models
             modelBuilder.Entity<Product>(entity =>
             {
                 entity.Property(e => e.Id).HasMaxLength(50);
+
+                entity.Property(e => e.Date).HasColumnType("datetime");
 
                 entity.Property(e => e.Name).HasMaxLength(50);
 

@@ -56,10 +56,10 @@
                                   ></TextBox>
                     </StackPanel>
                     <StackPanel>
-                        <Label  Height="auto" Content="Stock"/>
-                        <TextBox  x:Name="searchByStock" Width="200" Height="30" Margin="0 0 5 0"
-                                     Text="{Binding Stock, Mode=OneWay}" DataContext="{Binding SelectedItem, ElementName=listView}"
-                                  ></TextBox>
+                        <Label  Height="auto" Content="Date"/>
+                        <DatePicker  x:Name="searchByDate" Width="200" Height="30" Margin="0 0 5 0"
+                                     Text="{Binding Date, Mode=OneWay}" DataContext="{Binding SelectedItem, ElementName=listView}"
+                                  ></DatePicker>
                     </StackPanel>
                     <Button Width="80" Height="30" Padding="5 4" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="Button_Search"
                             Background="Goldenrod" Foreground="White">
@@ -81,7 +81,7 @@
                     </Button>
                     <Button x:Name="btnEdit" Width="80" Height="30" Padding="5 4" HorizontalAlignment="Right" Margin="0 0 10 0" Click="Button_Edit"
                             Background="Goldenrod" Foreground="White">
-                        Edit
+                        Update
                     </Button>
                     <Button Width="80" Height="30" Padding="5 4" HorizontalAlignment="Right" Margin="0 0 10 0" Click="Button_OpenCreate"
                             Background="Goldenrod" Foreground="White">
@@ -105,11 +105,11 @@
                         <GridView>
                             <GridViewColumn Header="ProductId" Width="100" DisplayMemberBinding="{Binding Path=Id }"/>
                             <GridViewColumn Header="ProductName" Width="200" DisplayMemberBinding="{Binding Path=Name}"/>
-                            <GridViewColumn Header="Quantity" Width="100" DisplayMemberBinding="{Binding Path=Quantity }"/>
-                            <GridViewColumn Header="Category" Width="200" DisplayMemberBinding="{Binding Path=CategoryId,Converter={StaticResource intToCategoryName}}"/>
+                            <GridViewColumn Header="Quantity" Width="50" DisplayMemberBinding="{Binding Path=Quantity }"/>
+                            <GridViewColumn Header="Category" Width="150" DisplayMemberBinding="{Binding Path=CategoryId,Converter={StaticResource intToCategoryName}}"/>
                             <GridViewColumn Header="PurchasePrice" Width="120" DisplayMemberBinding="{Binding Path=PurchasePrice}"/>
                             <GridViewColumn Header="RetailPrice" Width="120" DisplayMemberBinding="{Binding Path=RetailPrice}"/>
-                            <GridViewColumn Header="Stock" Width="100" DisplayMemberBinding="{Binding Path=Stock}"/>
+                            <GridViewColumn Header="Date" Width="200" DisplayMemberBinding="{Binding Path=Date, StringFormat=dd/MM/yyyy}"/>
                         </GridView>
                     </ListView.View>
                 </ListView>

@@ -92,8 +92,17 @@
                         <TextBlock Text="Order" Style="{StaticResource menuButtonText}"/>
                     </StackPanel>
                 </RadioButton>
-           
-          
+                
+                <RadioButton Style="{StaticResource menuButton}"
+                                 Tag="{StaticResource color1}"
+                                 Click="followPriceButton_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <fa:IconImage Icon="Dollar" Style="{StaticResource menuButtonIcon}"/>
+                        <TextBlock Text="Tracking Price Fluctuations" Style="{StaticResource menuButtonText}"/>
+                    </StackPanel>
+                </RadioButton>
+
+
             </StackPanel>
             <Border CornerRadius="0,10,10,0"
                     Grid.Column="1">
@@ -214,6 +223,9 @@
                                     Grid.Row="2"
                                     Margin="25"/>
                     <ContentControl Content="{Binding MemberManagerView}"
+                                    Grid.Row="2"
+                                    Margin="25"/>
+                    <ContentControl Content="{Binding PriceFluctuationsView}"
                                     Grid.Row="2"
                                     Margin="25"/>
 
